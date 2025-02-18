@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>RaspRoboCarControl</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .controller {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Button positions like a PS controller */
+        .button-forward  { grid-column: 2; grid-row: 1; background: #4CAF50; } /* Green △ */
+        .button-left     { grid-column: 1; grid-row: 2; background: #2196F3; } /* Blue ▢ */
+        .button-right    { grid-column: 3; grid-row: 2; background: #F44336; } /* Red ○ */
+        .button-backward { grid-column: 2; grid-row: 3; background: #FFC107; } /* Yellow × */
+
+        /* Hover effect */
+        .button:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 style="text-align: center;">Control Robo Car</h1>
+        <div id="controls" class="controller">
+            <button class="button button-forward" data-direction="forward">up</button>
+            <button class="button button-left" data-direction="left">left</button>
+            <button class="button button-right" data-direction="right">right</button>
+            <button class="button button-backward" data-direction="backward">back</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $("#controls").on("click", "button", function() {
+                const direction = $(this).data("direction");
+                sendCommand(direction);
+            });
+
+            function sendCommand(direction) {
+                $.ajax({
+                    url: `/${direction}`,
+                    method: "GET",
+                    success: () => console.log(direction)
+                });
+            }
+        });
+    </script>
+</body>
+</html>
