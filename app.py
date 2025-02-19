@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from engine import forward, backward, left, right, stop, cleanup
+from engine import *
+
 
 app = Flask(__name__)
 
@@ -19,10 +20,13 @@ def move(direction):
 
     if direction in actions:
         actions[direction]()
+        print(f"the derection is {direction} ")
         return f"Car moving {direction}"
     else:
         return "Invalid direction", 400
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+
+# if __name__ == '__main__':
+    # app.run(debug=True , host= "0.0.0.0")
     
